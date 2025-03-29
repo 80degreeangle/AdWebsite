@@ -1,41 +1,31 @@
+// Track the next available position in the grid
+let adGridPositions = [];
+
 // Function to show the ad placement form
 function showAdForm() {
     document.getElementById('ad-form-container').style.display = 'block';
 }
 
-// Function to randomly place advertisements within the container
-function placeAds() {
-    let ads = document.querySelectorAll('.ad');
-    let totalAds = ads.length;
-
-    // Calculate number of rows and columns based on total ads
-    let numCols = Math.floor(Math.sqrt(totalAds));  // Square root to determine grid size
-    let numRows = Math.ceil(totalAds / numCols);
-
-    // Set the ad container to have a grid layout
-    document.querySelector('.ad-container').style.gridTemplateColumns = `repeat(${numCols}, 1fr)`;
-
-    // For each ad, calculate its size and position in the grid
-    ads.forEach((ad, index) => {
-        let width = (100 / numCols) + '%';
-        let height = (100 / numRows) + '%';
-        ad.style.width = width;
-        ad.style.height = height;
-    });
-}
-
-// Handle the form submission for placing ads
-document.getElementById('ad-size-form').onsubmit = function(event) {
-    event.preventDefault();
+// Function to place ads without overlap
+function placeAd(widthPercentage, heightPercentage) {
+    // Calculate the available position for the ad
+    let nextPosition = adGridPositions.findIndex(pos => !pos.filled);
     
-    let width = document.getElementById('width').value;  // Get width percentage
-    let height = document.getElementById('height').value;  // Get height percentage
+    if (nextPosition === -1) {
+        alert('No more space available for ads!');
+        return;
+    }
+
+    // Mark the position as filled
+    adGridPositions[nextPosition].filled = true;
 
     // Create a new ad div dynamically based on user input
     let ad = document.createElement('div');
     ad.classList.add('ad');
-    ad.style.width = width + '%';  // Set ad width based on user input
-    ad.style.height = height + '%';  // Set ad height based on user input
+    ad.style.gridColumnStart = adGridPositions[nextPosition].colStart;
+    ad.style.gridRowStart = adGridPositions[nextPosition].rowStart;
+    ad.style.width = widthPercentage + '%';  // Set ad width based on user input
+    ad.style.height = heightPercentage + '%';  // Set ad height based on user input
     ad.innerText = 'New Ad';
 
     // Optional: Add a link inside the ad
@@ -49,7 +39,47 @@ document.getElementById('ad-size-form').onsubmit = function(event) {
 
     // Call placeAds to adjust the layout of all ads
     placeAds();
+}
+
+// Handle the form submission for placing ads
+document.getElementById('ad-size-form').onsubmit = function(event) {
+    event.preventDefault();
+    
+    let width = document.getElementById('width').value;  // Get width percentage
+    let height = document.getElementById('height').value;  // Get height percentage
+
+    // Call placeAd to place the ad at the next available position
+    placeAd(width, height);
 };
 
-// Call placeAds function when the page loads to adjust the layout of existing ads
-window.onload = placeAds;
+// Function to create a grid layout and set up positions for ads
+function setupAdGrid() {
+    // Set up the grid dimensions (assuming a maximum of 10 rows and columns for simplicity)
+    const rows = 10;
+    const cols = 10;
+
+    for (let row = 1; row <= rows; row++) {
+        for (let col = 1; col <= cols; col++) {
+            adGridPositions.push({
+                rowStart: row,
+                colStart: col,
+                filled: false, // Initially, no positions are filled
+            });
+        }
+    }
+}
+
+// Initialize the grid on page load
+window.onload = function() {
+    setupAdGrid();
+    placeAds();
+};
+
+// Function to organize the layout of ads within the grid
+function placeAds() {
+    let ads = document.querySelectorAll('.ad');
+    ads.forEach(ad => {
+        // Ensure that ads stay in their assigned grid positions
+        ad.style.position = 'absolute';
+    });
+};
