@@ -3,14 +3,24 @@ function showAdForm() {
     document.getElementById('ad-form-container').style.display = 'block';
 }
 
-// Function to randomly position advertisements within the container
+// Function to randomly place advertisements within the container
 function placeAds() {
     let ads = document.querySelectorAll('.ad');
-    ads.forEach(ad => {
-        let randomX = Math.floor(Math.random() * 90) + "%";  // Random X position (0-90%)
-        let randomY = Math.floor(Math.random() * 90) + "%";  // Random Y position (0-90%)
-        ad.style.left = randomX;
-        ad.style.top = randomY;
+    let totalAds = ads.length;
+
+    // Calculate number of rows and columns based on total ads
+    let numCols = Math.floor(Math.sqrt(totalAds));  // Square root to determine grid size
+    let numRows = Math.ceil(totalAds / numCols);
+
+    // Set the ad container to have a grid layout
+    document.querySelector('.ad-container').style.gridTemplateColumns = `repeat(${numCols}, 1fr)`;
+
+    // For each ad, calculate its size and position in the grid
+    ads.forEach((ad, index) => {
+        let width = (100 / numCols) + '%';
+        let height = (100 / numRows) + '%';
+        ad.style.width = width;
+        ad.style.height = height;
     });
 }
 
@@ -28,12 +38,18 @@ document.getElementById('ad-size-form').onsubmit = function(event) {
     ad.style.height = height + '%';  // Set ad height based on user input
     ad.innerText = 'New Ad';
 
+    // Optional: Add a link inside the ad
+    let link = document.createElement('a');
+    link.href = 'https://example.com';  // Link to an example site
+    link.innerText = 'Click Here!';
+    ad.appendChild(link);
+
     // Append the new ad to the ad container
     document.querySelector('.ad-container').appendChild(ad);
 
-    // Place all ads (including new ones) randomly on the page
+    // Call placeAds to adjust the layout of all ads
     placeAds();
 };
 
-// Call placeAds function when the page loads to position existing ads
+// Call placeAds function when the page loads to adjust the layout of existing ads
 window.onload = placeAds;

@@ -68,18 +68,34 @@ header button:hover {
     width: 100%;
     height: 100vh;
     background-color: #e8e8e8;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     padding: 10px;
 }
 
 /* Advertisement Styling */
 .ad {
-    position: absolute;
+    position: relative;
     padding: 15px;
     background-color: rgba(0, 0, 255, 0.5);
     color: white;
     font-size: 16px;
     border: 2px solid white;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.ad a {
+    color: white;
+    text-decoration: underline;
+}
+
+.ad:hover {
+    background-color: rgba(0, 0, 255, 0.7);
 }
 
 /* PayPal Button */
