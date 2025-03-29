@@ -1,17 +1,103 @@
+/* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Page Styling */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-  }
-  
-  h1 {
-    text-align: center;
     color: #333;
-  }
-  
-  p {
     text-align: center;
-    color: #666;
-  }
-  
+}
+
+/* Header */
+header {
+    padding: 20px;
+    background-color: #2d3e50;
+    color: white;
+}
+
+header h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+header button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+header button:hover {
+    background-color: #45a049;
+}
+
+/* Ad Form */
+#ad-form-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+#ad-form-container input[type="number"] {
+    width: 50px;
+    margin: 10px;
+}
+
+#ad-form-container button {
+    background-color: #2d3e50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+#ad-form-container button:hover {
+    background-color: #333;
+}
+
+/* Ad Container */
+.ad-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-color: #e8e8e8;
+    padding: 10px;
+}
+
+/* Advertisement Styling */
+.ad {
+    position: absolute;
+    padding: 15px;
+    background-color: rgba(0, 0, 255, 0.5);
+    color: white;
+    font-size: 16px;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
+/* PayPal Button */
+#paypal-button-container {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+
+#paypal-button-container input[type="submit"] {
+    background-color: #0070ba;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+}
+
+#paypal-button-container input[type="submit"]:hover {
+    background-color: #005a8c;
+}
